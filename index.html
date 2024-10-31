@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yohan Assaban - Professional Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #0a0b1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff3366;
+            --secondary-color: #3366ff;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), #1a1b3e);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 11, 30, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        nav ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin-left: 30px;
+        }
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        section {
+            padding: 80px 0;
+            opacity: 1; /* Changed from 0 to 1 */
+            transform: translateY(0); /* Changed from translateY(20px) */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .hero-content {
+            max-width: 50%;
+        }
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #ff1a4f;
+        }
+        .profile-pic {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+        }
+        .skills h2, .projects h2, .contact h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        .skill-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+        }
+        .skill-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .project {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .project.active {
+            opacity: 1;
+        }
+        .project-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .project-image {
+            width: 250px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 51, 102, 0.7);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background-color: rgba(255, 51, 102, 1);
+        }
+        .carousel-arrow.left { left: 10px; }
+        .carousel-arrow.right { right: 10px; }
+        .contact form {
+            display: grid;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+        .contact textarea {
+            height: 150px;
+        }
+        .contact button {
+            justify-self: start;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact button:hover {
+            background-color: #ff1a4f;
+        }
+        .social-links {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        footer {
+            background-color: rgba(10, 11, 30, 0.8);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+            .profile-pic {
+                width: 200px;
+                height: 200px;
+            }
+            .social-links {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 30px;
+            }
+            .carousel {
+                height: 400px;
+            }
+            .project {
+                padding: 10px;
+            }
+            .project-image {
+                width: 200px;
+                height: 120px;
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <h1>Yohan Assaban</h1>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about" class="hero container">
+            <div class="hero-content">
+                <h1>Hello! I'm Yohan Assaban</h1>
+                <p>Software Developer | UI/UX Enthusiast</p>
+                <p>I'm a passionate software developer based in France, with a strong interest in creating efficient and user-friendly solutions. Currently pursuing a Bachelor's degree in Computer Science, I'm eager to tackle new challenges and contribute to innovative projects.</p>
+                <a href="images/CV-Yohan-Assaban.png" class="cta-button">Download CV</a>
+            </div>
+            <img src="images/yohanpicture.png" alt="Yohan Assaban" class="profile-pic">
+        </section>
+
+        <section id="skills" class="skills container">
+            <h2>Skills</h2>
+            <div class="skill-grid">
+                <div class="skill-item">
+                    <i class="fas fa-code skill-icon"></i>
+                    <h3>Web Development</h3>
+                    <p>HTML, CSS, JavaScript</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database skill-icon"></i>
+                    <h3>Databases</h3>
+                    <p>SQL, NoSQL</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-laptop-code skill-icon"></i>
+                    <h3>Programming</h3>
+                    <p>Java, Python, C#</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-project-diagram skill-icon"></i>
+                    <h3>Project Management</h3>
+                    <p>Agile, Scrum</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-mobile-alt skill-icon"></i>
+                    <h3>UI/UX Design</h3>
+                    <p>Responsive Design, Prototyping</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-cogs skill-icon"></i>
+                    <h3>Tools</h3>
+                    <p>Git, VS Code, Docker</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects container">
+            <h2>Projects</h2>
+            <div class="carousel">
+                <div class="project active">
+                    <div class="project-info">
+                        <h3>StatHydre: Data Visualization Application</h3>
+                        <p>A C# application for visualizing complex data sets, featuring custom graphs and maps generated from Python scripts, backed by a robust database system.</p>
+                    </div>
+                    <img class="project-image" src="/api/placeholder/250/150" alt="StatHydre Project">
+                </div>
+                <div class="project">
+                    <div class="project-info">
+                        <h3>LifeChip: Fictional Company Website</h3>
+                        <p>A pure HTML/CSS website showcasing my front-end development skills, complete with persona creation for targeted user experience design.</p>
+                    </div>
+                    <img class="project-image" src="images/lifechip.png" alt="LifeChip Project">
+                </div>
+                <div class="project">
+                    <div class="project-info">
+                        <h3>Pixel War: Multiplayer Pixel Game</h3>
+                        <p>An interactive multiplayer game built with HTML/CSS/JS, allowing users to place pixels on a shared grid. This project demonstrates my ability to work with real-time web applications and APIs.</p>
+                    </div>
+                    <img class="project-image" src="images/pixelwar.png" alt="Pixel War Project">
+                </div>
+                <a href="#" class="carousel-arrow left">&lt;</a>
+                <a href="#" class="carousel-arrow right">&gt;</a>
+            </div>
+        </section>
+
+        <section id="contact" class="contact container">
+            <h2>Contact Me</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="social-links">
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Yohan Assaban. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Project carousel functionality
+        let currentProject = 0;
+        const projects = document.querySelectorAll('.project');
+        const totalProjects = projects.length;
+
+        function showProject(index) {
+            projects[currentProject].classList.remove('active');
+            currentProject = (index + totalProjects) % totalProjects;
+            projects[currentProject].classList.add('active');
+        }
+
+        document.querySelector('.carousel-arrow.left').addEventListener('click', (e) => {
+            e.preventDefault();
+            showProject(currentProject - 1);
+        });
+
+        document.querySelector('.carousel-arrow.right').addEventListener('click', (e) => {
+            e.preventDefault();
+            showProject(currentProject + 1);
+        });
+    </script>
+</body>
